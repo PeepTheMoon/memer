@@ -1,4 +1,4 @@
-require('../data-helpers/data.helpers');
+const { prepare } = require('../data-helpers/data.helpers');
 
 const request = require('supertest');
 const app = require('../lib/app');
@@ -23,4 +23,15 @@ describe('meme routes', () => {
         });
       });
   });
+
+  it('gets all memes with GET', async() => {
+    const memes = prepare(await Meme.find());
+
+    return request(app)
+      .get('/api/v1/memes')
+      .then(res => {
+        expect(res.body).toEqual(memes);
+      });
+  });
+  
 });
