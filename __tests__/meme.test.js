@@ -44,4 +44,25 @@ describe('meme routes', () => {
       });
   });
 
+  it('updates a meme by id with PUT', async() => {
+    const meme = prepare(await Meme.findOne());
+
+    return request(app)
+      .put(`/api/v1/memes/${meme._id}`)
+      .send({
+        top: 'When someone says',
+        image: 'myimage.gif',
+        bottom: 'something nice'
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          _id: expect.anything(),
+          top: 'When someone says',
+          image: 'myimage.gif',
+          bottom: 'something nice',
+          __v: 0
+        });
+      });
+  });
+
 });
